@@ -1,0 +1,26 @@
+    void RocketJump() // in Update() in player
+    {
+        rocketJumpVector = -mainCamera.transform.forward - new Vector3(0, mainCamera.transform.forward.y * 2.5f, 0);
+
+        if (toChangeRocketJumpVector)
+        {
+            rocketJumpVector = rocketJumpVector * shotgunJumpForce * Time.deltaTime;
+        }
+        else
+        {
+            rocketJumpVector = new Vector3(rocketJumpVector.x, 0, rocketJumpVector.z) * shotgunJumpForce * Time.deltaTime;
+        }
+    }
+
+
+
+        // In rocket script
+        // This one is used to check for a ground underneath us to shotgun-jump 
+        RaycastHit hitPointForRocketJump;
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hitPointForRocketJump, rocketJumpMaxDistance, targetLayer))
+        {
+            if (hitPointForRocketJump.transform.gameObject.layer != 6)
+            {
+                playerController.shotgunJumpHeight = playerController.shotgunJumpHeightConstant;
+            }
+        }
